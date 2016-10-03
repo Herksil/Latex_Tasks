@@ -1,0 +1,134 @@
+\documentclass[serif,10pt,utf8, russian]{beamer}
+\usepackage[russian]{babel}
+\begin{document}
+
+\begin{frame}
+\begin{block}{\begin{center}Транспортные задачи по критерию времени\end{center}}
+\begin{center}
+Студент ІІІ курса\\
+Прикладной математики\\
+Гайдей Р.В.
+\end{center}
+\end{block}
+\end{frame}
+
+\begin{frame}{\begin{center}Транспортные задачи по критерию времени\end{center}}
+\parbox{11 cm}{\parindent=1 cm \textbf{Транспортные задачи по критерию времени} – разновидность транспортных задач, целью которых является достижение наименьшего времени перевозки груза.\\ \ \\}
+\pause
+\parbox{11 cm}{\parindent=1 cm Такие задачи возникают при перевозке срочного груза. Это может быть гуманитарная помощь пострадавшим, скоропортящиеся продукты, лекарства, вакцины, условия хранения которых трудно поддерживать при транспортировке длительное время и т.п.}
+\end{frame}
+
+\begin{frame}{\begin{center}В ходе работы:\end{center}}
+\pause
+\begin{itemize}
+\item Рассмотрена классическая транспортная задача по критерию времени и алгоритм ее минимизации\\ \ \\
+\pause
+\item Рассмотрена транспортная задача по критерию времени по Постану и алгоритм ее минимизации\\ \ \\
+\pause
+\item Создана программная реализация обоих алгоритмов минимизации\\ \ \\
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\begin{center}Классическая транспортная задача \\по критерию времени\end{center}}
+$$T\left(X\right) = \max_{x_{ij}>0}{t_{ij}} \rightarrow \min,$$
+\pause
+$$\sum_{j=1}^{m}{x_{ij}}=a_{i},\ i=1,2,\dots,n,$$
+$$\sum_{i=1}^{n}{x_{ij}}=b_{j},\ j=1,2,\dots,m,$$
+\pause
+$$x_{ij}\ge 0, x_{ij}\ -\ \text{натуральные}\ \forall\ i,j,$$
+\pause
+\parbox{11 cm}{\parindent=1 cm где $t_{ij}$ - время перевозки от $i$ - ого поставщика $j$ - ому потребителю}
+\end{frame}
+
+\begin{frame}{\begin{center}Алгоритм минимизации\end{center}}
+\begin{enumerate}
+\item Построить опорный план $X_1$ любым известным способом. Найти его время.
+\pause
+\item Найти лимитирующую клетку - занятая клетка транспортной таблицы, в которой достигается $\max{\left(t_{ij}\right)}$. Обозначим ее через $\left(i_0 j_0\right)$.
+\pause
+\item Вычеркнуть пустые клетки, для которых $t_{ij}>T\left(X_1\right)$.
+\pause
+\item Строим все возможные разгрузочные циклы, отрицательная полуцепь $C^{-}$ содержит только те клетки, где $x_{ij}\ge x_{i_0 j_0}$, а полуцепь $C^{+}$ - клетки с $t_{ij}<T\left(X_1\right)$.
+\pause
+\item Выполнить сдвиг на величину $\theta = x_{i_0 j_0}$. Получим новый план $X_2$.
+\pause
+\item Повторяем шаги 2-5. Если на шаге 4 не существует разгрузочных циклов - оптимальный план достигнут.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{\begin{center}Транспортная задача по критерию времени\\ по Постану\end{center}}
+\par{Зависимость $t_{ij}$ от $x_{ij}$ выглядит следующим образом:}
+\pause
+$$t_{ij}\left(x_{ij}\right)=\frac{x_{ij}}{P_{ij}} + \tau_{ij}e\left(x_{ij}\right),$$
+\pause
+\parbox{11 cm}{\parindent=1 cm где $P_{ij}$ - производительность транспортных систем, что работают в направлении $A_i \rightarrow B_j$;}
+\pause
+\parbox{11 cm}{\parindent=1 cm $\tau_{ij}$ - время выполнения дополнительных операций, не связанных непосредственно с перевозкой и перегрузкой (непроизводительные простои, прохождение таможни и др.) при транспортировке груза от пункта $A_i$ к пункту $B_j$.}
+\pause
+$$e\left(x\right) = \begin{cases}
+1, & \text{если $x>0$;}\\
+0, & \text{если $x=0$.}
+\end{cases}$$
+\end{frame}
+
+\begin{frame}{\begin{center}Транспортная задача по критерию времени \\по Постану\end{center}}
+\par{Критерий оптимальности:}
+\pause
+$$T\left(X\right) = \max_{x_{ij}>0}{t_{ij}\left(x_{ij}\right)} \rightarrow \min,$$
+\pause
+$$\sum_{j=1}^{m}{x_{ij}}=a_{i},\ i=1,2,\dots,n,$$
+$$\sum_{i=1}^{n}{x_{ij}}=b_{j},\ j=1,2,\dots,m,$$
+\pause
+$$x_{ij}\ge 0, x_{ij}\ -\ \text{натуральные}\ \forall\ i,j,$$
+\end{frame}
+
+\begin{frame}{\begin{center}Алгоритм минимизации\end{center}}
+\begin{enumerate}
+\item Построить опорный план $X_1$ любым известным способом. Найти его время.
+\pause
+\item Найти лимитирующую клетку - занятая клетка транспортной таблицы, в которой достигается $\max{\left(t_{ij}\right)}$. Обозначим ее через $\left(i_0 j_0\right)$.
+\pause
+\item Вычеркнуть пустые клетки, для которых $1+P_{ij}\tau_{ij}\ge P_{ij}T\left(X_1\right)$.
+\pause
+\item Строим все возможные разгрузочные циклы, отрицательная полуцепь $C^{-}$ содержит только те клетки, где $x_{ij}\ge x_{i_0 j_0}$, а полуцепь $C^{+}$ - клетки с $t_{ij}<T\left(X_1\right)$.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{\begin{center}Алгоритм минимизации\end{center}}
+\begin{enumerate}
+\item[5.] Для каждого цикла определяем такое значение $\theta$,
+$$ \theta = 1,2,\dots, \min_{\left(i,j\right)\in C^{-}}{x_{ij}},$$
+которое минимизирует выражение:
+$$T\left(X\left(\theta\right)\right)=\max_{x_{ij}>0}{t_{ij}\left(x_{ij}\left(\theta\right)\right)},$$
+$$x_{ij}\left(\theta\right)=\begin{cases}
+x_{ij}, & \text{если $\left(i,j\right)\notin C^{-}\bigcup C^{+}$}\\
+x_{ij}-\theta, & \text{если $\left(i,j\right)\in C^{-}$}\\
+x_{ij}+\theta, & \text{если $\left(i,j\right)\in C^{+}$}
+\end{cases}$$
+\parbox {11 cm}{\parindent=1 cm Если $\min_{\theta}{T\left(X\left(\theta\right)\right)}$ дотигается в нескольких значениях $\theta$, то выбирается любое из них.}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{\begin{center}Алгоритм минимизации\end{center}}
+\begin{enumerate}
+\item[6.] Для каждого цикла находим время перевозки плана, который будет получен в случае сдвига по этому циклу при его оптимальном значении $\theta$.
+\pause
+\item[7.] Среди полученных планов выбираем тот, который дает наибольшее снижение по времени.
+\pause
+\item[8.] Повторяем пункты 2-8 до тех пор, пока на пункте 4 существуют разгрузочные циклы или пока на пункте 8 не будет планов, которые дают снижение по времени.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\par{\large ПРОГРАММНАЯ РЕАЛИЗАЦИЯ}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\par{\large СПАСИБО ЗА ВНИМАНИЕ!}
+\end{center}
+\end{frame}
+
+\end{document}
